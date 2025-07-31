@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use App\Helpers\migrationsHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
-use migrationsHelper;
 
 class AppServiceProvider extends ServiceProvider
 {
