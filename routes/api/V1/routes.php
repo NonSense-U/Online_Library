@@ -1,9 +1,12 @@
 <?php
 
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Http\Controllers\V1\Accounts\AuthController;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 Route::get('/test', function(){
-    throw new AuthorizationException();
+    dd('smile darling UwU');
 });
+
+Route::post('/signup',[AuthController::class,'signup']);
+Route::post('/login', [AuthController::class,'login']);
+Route::delete('/logout',[AuthController::class,'logout'])->middleware('auth:sanctum');

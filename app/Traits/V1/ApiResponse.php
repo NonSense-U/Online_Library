@@ -8,7 +8,7 @@ use function PHPUnit\Framework\isEmpty;
 
 trait ApiResponse
 {
-    public static function siccess($message = 'ok', $data = [], $statusCode = 200): JsonResponse
+    public static function success($message = 'ok', $data = [], $statusCode = 200): JsonResponse
     {
 
         $fin = [
