@@ -1,0 +1,704 @@
+type: collection.insomnia.rest/5.0
+name: MY_SPHERE
+meta:
+  id: wrk_d5c3bb0661f04f98a6258d5dd7b8109e
+  created: 1753961238474
+  modified: 1753961238474
+  description: ""
+collection:
+  - name: Accounts
+    meta:
+      id: fld_1fe5c8a72ac049a9a04ad774cef985ba
+      created: 1754001541979
+      modified: 1754061157531
+      sortKey: -1754001541979
+      description: ""
+    children:
+      - url: "{{ _.localhost }}/signup"
+        name: create User
+        meta:
+          id: req_5ac1a2df9a6f41fcac951fb918300c1c
+          created: 1754003347799
+          modified: 1754003887049
+          isPrivate: false
+          description: ""
+          sortKey: -1754003886965
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"base" : {
+            		"username" : "{% faker 'randomUserName' %}",
+            		"fullname" : "poki woki",
+            		"email" : "{% faker 'randomEmail' %}",
+            		"password" : "12345678",
+            		"password_confirmation" : "12345678"
+            	},
+            	"login" : true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        scripts:
+          afterResponse: |
+            const jsonBody = insomnia.response.json();
+
+            if (jsonBody && jsonBody.data && jsonBody.data.token) {
+              insomnia.environment.set('auth_token', jsonBody.data.token);
+            }
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Auth
+    meta:
+      id: fld_935a68884b6b4c14ba630942284e9186
+      created: 1754003906039
+      modified: 1754067358739
+      sortKey: -1754013465024
+      description: ""
+    children:
+      - url: "{{ _.localhost }}/login"
+        name: Login
+        meta:
+          id: req_91053d66f22144f2b8d7e3a8d58c03cf
+          created: 1754003911716
+          modified: 1754004949789
+          isPrivate: false
+          description: ""
+          sortKey: -1754003956239
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"username" : "aki",
+            	"password" : "123"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        scripts:
+          afterResponse: |
+            const jsonBody = insomnia.response.json();
+
+            if (jsonBody && jsonBody.data && jsonBody.data.token) {
+              insomnia.environment.set('auth_token', jsonBody.data.token);
+            }
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/logout"
+        name: Logout
+        meta:
+          id: req_7899f372154e411792cd0d87b87fd987
+          created: 1754003936058
+          modified: 1754004958481
+          isPrivate: false
+          description: ""
+          sortKey: -1754003956139
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Books
+    meta:
+      id: fld_8d71a5cc4e3a4e53b34ed26f7b89cb5a
+      created: 1754013464924
+      modified: 1754061152002
+      sortKey: -1754013464924
+      description: ""
+    children:
+      - url: "{{ _.localhost }}/books/add"
+        name: Add Book
+        meta:
+          id: req_d79ec2dae5a349b4955b2518571f9e8d
+          created: 1754011717135
+          modified: 1754015025459
+          isPrivate: false
+          description: ""
+          sortKey: -1754013495924
+        method: POST
+        body:
+          mimeType: application/json
+          text: >
+            {
+
+            "base" : {  "title": "Metamorphosis",
+            						"description": "A novella by Franz Kafka about a man who transforms into a giant insect, exploring themes of isolation and identity.",
+            						"isbn": "978-0-14-118957-4",
+            						"author_id": 1,
+            						"publisher_id": 2,
+            						"release_year": 1915,
+            						"price": 12.99,
+            						"stock": 80,
+            						"cover_image_url": 		"https://example.com/images/metamorphosis-cover.jpg"
+            	},
+            "genres" : [1,2,3,4]
+
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        authentication:
+          type: bearer
+          token: "{{ _.auth_token }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/books/delete/1"
+        name: Delete Book
+        meta:
+          id: req_e1b94c4dd80846799aaddf82cc106a8e
+          created: 1754013505743
+          modified: 1754015201061
+          isPrivate: false
+          description: ""
+          sortKey: -1754013496024
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/books"
+        name: Index
+        meta:
+          id: req_437fa272d51d47048e7e5f9bd42aaaae
+          created: 1754014336494
+          modified: 1754014512585
+          isPrivate: false
+          description: ""
+          sortKey: -1754014336694
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/books/1"
+        name: Get Book by ID
+        meta:
+          id: req_78653ed4c58c4cec9596ef41e86c7232
+          created: 1754014474390
+          modified: 1754015234500
+          isPrivate: false
+          description: ""
+          sortKey: -1754014336594
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+            id: pair_794afe0592624915a91a7149ad31fc6f
+          - id: pair_16cbfcbd23b948ccaa7711a8be43547d
+            name: Accept
+            value: application/json
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/books/2"
+        name: Update Book
+        meta:
+          id: req_e406c097a79740b7ad9a8c9d3666fbf0
+          created: 1754067370339
+          modified: 1754070928070
+          isPrivate: false
+          description: ""
+          sortKey: -1754014336794
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"genres" : [1,2,3,4]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Authors
+    meta:
+      id: fld_209f2ca3fd114afbbd76de9c7deefe80
+      created: 1754016024131
+      modified: 1754067355890
+      sortKey: -1754016024132
+      description: ""
+    children:
+      - url: "{{ _.localhost }}/authors/1"
+        name: Get Author By id
+        meta:
+          id: req_3acb6408bc81420194dff081950bfbec
+          created: 1754016029742
+          modified: 1754060557881
+          isPrivate: false
+          description: ""
+          sortKey: -1754058197470
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/authors"
+        name: Index
+        meta:
+          id: req_2d684a37217a4b4bba1284426853a923
+          created: 1754058203776
+          modified: 1754060560707
+          isPrivate: false
+          description: ""
+          sortKey: -1754058197570
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/authors/add"
+        name: Add author
+        meta:
+          id: req_9b3b7593a7614ee8956891ec255113d0
+          created: 1754058237351
+          modified: 1754058718930
+          isPrivate: false
+          description: ""
+          sortKey: -1754058197270
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"fullname" : "Franz Kafka",
+            	"origin_country" : "Russia"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/authors/delete/6"
+        name: Delete Author
+        meta:
+          id: req_e3b34026468d432e8369c3f564c9402c
+          created: 1754058722242
+          modified: 1754060563868
+          isPrivate: false
+          description: ""
+          sortKey: -1754058197170
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/authors/2"
+        name: Update Author
+        meta:
+          id: req_8db80a4261e24662a56de53eb385ee25
+          created: 1754067457359
+          modified: 1754082820083
+          isPrivate: false
+          description: ""
+          sortKey: -1754058197620
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"fullname" : "NonSense"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Publishers
+    meta:
+      id: fld_12fdec225a874cb5ad6b282b4c636390
+      created: 1754060756515
+      modified: 1754067351347
+      sortKey: -1754016024232
+      description: ""
+    children:
+      - url: "{{ _.localhost }}/publishers"
+        name: Index
+        meta:
+          id: req_db48304a718b40f39d313b897fbba1af
+          created: 1754060766013
+          modified: 1754060975087
+          isPrivate: false
+          description: ""
+          sortKey: -1754060967216
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/publishers/1"
+        name: Get publisher by ID
+        meta:
+          id: req_d8a5833ad468484d8b1804a6229e80be
+          created: 1754060806258
+          modified: 1754060984127
+          isPrivate: false
+          description: ""
+          sortKey: -1754060966991
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/publishers/add"
+        name: Add publisher
+        meta:
+          id: req_f1dfcd2c521342d4aa70ae1c63bfed64
+          created: 1754060831084
+          modified: 1754060979904
+          isPrivate: false
+          description: ""
+          sortKey: -1754060966966
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"publisher_name" : "{% faker 'randomCompanyName' %}",
+            	"origin_country" : "{% faker 'randomCountry' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/publishers/delete/1"
+        name: Delete publisher
+        meta:
+          id: req_3a1fb82b593a4d128d46d66c6699a9e7
+          created: 1754060933383
+          modified: 1754067349633
+          isPrivate: false
+          description: ""
+          sortKey: -1754060966916
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/publishers/2"
+        name: Update Publisher
+        meta:
+          id: req_47adbff8c95e4329a9868e02305738f6
+          created: 1754067446822
+          modified: 1754082233858
+          isPrivate: false
+          description: ""
+          sortKey: -1754060966978.5
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"publisher_name" : "fuck"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Genres
+    meta:
+      id: fld_00efc78c6c814bb0b0401b00c51e22b0
+      created: 1754061921947
+      modified: 1754067347414
+      sortKey: -1754016024332
+      description: ""
+    children:
+      - url: "{{ _.localhost }}/genres"
+        name: Index
+        meta:
+          id: req_83987693706b4878a2fb0ad1de7e780f
+          created: 1754061927850
+          modified: 1754061993143
+          isPrivate: false
+          description: ""
+          sortKey: -1754061980010
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/genres/1"
+        name: get Genre By id
+        meta:
+          id: req_a9ed46e288b24deab5d875e9a82e35da
+          created: 1754061996451
+          modified: 1754067109317
+          isPrivate: false
+          description: ""
+          sortKey: -1754061980110
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/genres/add"
+        name: Add genre
+        meta:
+          id: req_56955aab6b684ef4bb4387f491fe1131
+          created: 1754067112402
+          modified: 1754067259727
+          isPrivate: false
+          description: ""
+          sortKey: -1754067112402
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name" : "{% faker 'randomCatchPhrase' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/genres/delete/1"
+        name: Delete genre
+        meta:
+          id: req_28f2d91069084fcca5d05b9c6326c072
+          created: 1754067261403
+          modified: 1754067296848
+          isPrivate: false
+          description: ""
+          sortKey: -1754067261403
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.localhost }}/genres/2"
+        name: Update Genre
+        meta:
+          id: req_17fcb7c2e2ca4f0aa4e635407cd65bf3
+          created: 1754067438196
+          modified: 1754081839733
+          isPrivate: false
+          description: ""
+          sortKey: -1754067261503
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            "name" : "fuckery"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.3.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - url: "{{ _.localhost }}/test"
+    name: test
+    meta:
+      id: req_449cd52477de4684b975cf2379120181
+      created: 1754000580061
+      modified: 1754001487117
+      isPrivate: false
+      description: ""
+      sortKey: -1754000580061
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.3.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_7842367fec953e97317e6dd3b58da0536b8504b9
+    created: 1753961238484
+    modified: 1754061026987
+environments:
+  name: Base Environment
+  meta:
+    id: env_7842367fec953e97317e6dd3b58da0536b8504b9
+    created: 1753961238478
+    modified: 1754061026996
+    isPrivate: false
+  data:
+    localhost: 127.0.0.1:8000/api/v1
+    auth_token: 1|lf41YpYTmaMJByaYUU45YgfAZrt4bFj4WU0nFWMt812f92c7

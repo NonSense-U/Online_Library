@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('publishers', function (Blueprint $table) {
             $table->id();
-            $table->string('pub_name');
+            $table->string('publisher_name');
             $table->string('origin_country');
             $table->timestamps();
         });

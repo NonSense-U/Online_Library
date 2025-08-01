@@ -11,7 +11,7 @@ class UpdateBookRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class UpdateBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'base' => ['sometimes', 'array'],
+            'base.title' => ['sometimes', 'string'],
+            'base.description' => ['sometimes', 'string'],
+            'base.isbn' => ['sometimes', 'string'],
+            'base.author_id' => ['sometimes', 'integer', 'exists:authors,id'],
+            'base.publisher_id' => ['sometimes', 'integer', 'exists:publishers,id'],
+            'base.release_year' => ['sometimes', 'integer'],
+            'base.price' => ['sometimes', 'decimal:0,2'],
+            'base.stock' => ['sometimes', 'integer'],
+            'base.cover_image_url' => ['sometimes', 'string'],
+            'genres' => ['sometimes', 'array'],
+            'genres.*' => ['integer', 'exists:genres,id'],
         ];
     }
 }

@@ -17,7 +17,7 @@ class PublisherFactory extends Factory
     public function definition(): array
     {
         return [
-            'pub_name' => fake()->company(),
+            'publisher_name' => fake()->company(),
             'origin_country' => fake()->country()
         ];
     }
